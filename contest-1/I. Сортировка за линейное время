@@ -1,0 +1,77 @@
+#include <iostream>
+#include <algorithm>
+
+unsigned int cur = 0;
+const unsigned int MAX_SIZE = 50000;
+const unsigned int BASE = 256;
+
+inline unsigned long long nextRand24(const unsigned long long &a, const unsigned long long &b)
+{
+    cur = cur * a + b;
+    return (cur >> 8);
+}
+
+inline unsigned long long nextRand32(const unsigned long long &a, const unsigned long long &b)
+{
+    return (nextRand24(a, b) << 8) ^ nextRand24(a, b);
+}
+
+
+void countSort(unsigned long long arr[], const unsigned int &n, const unsigned long long &exponent)
+{
+    unsigned long long count[BASE]; 
+    unsigned long long *temp = new unsigned long long[n];
+
+    for (unsigned int i = 0; i < BASE; i++) count[i] = 0; 
+
+    for (unsigned int i = 0; i < n; i++)
+        count[(arr[i] / exponent) % BASE]++;
+
+    for (unsigned int i = 1; i < BASE; i++)
+        count[i] += count[i - 1];
+
+    for (int i = n - 1; i >= 0; i--)
+    {
+        unsigned long long index = (arr[i] / exponent) % BASE;
+        temp[--count[index]] = arr[i];
+    }
+
+    for (unsigned int i = 0; i < n; i++)
+        arr[i] = temp[i];
+
+    delete[] temp;
+}
+
+void radixSort(unsigned long long arr[], const unsigned int &n)
+{
+    unsigned long long max = *std::max_element(arr, arr + n);
+
+    for (unsigned long long exp = 1; max / exp > 0; exp *= BASE)
+        countSort(arr, n, exp);
+}
+
+int main()
+{
+    unsigned long long t;
+    std::cin >> t;
+
+    unsigned long long n, a, b;
+    std::cin >> n >> a >> b;
+    unsigned long long arr[MAX_SIZE];
+
+    while (t-- > 0)
+    {
+        for (unsigned long long i = 0; i < n; i++)
+            arr[i] = nextRand32(a, b);
+
+        
+        radixSort(arr, n);
+
+        unsigned long long answer = 0;
+        for (unsigned long long i = 0; i < n; i++)
+            answer += arr[i] * (i + 1);
+
+        std::cout << answer << "\n";
+    }
+}
+
