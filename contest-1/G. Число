@@ -1,0 +1,23 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+int main() {
+    std::vector<std::string> numb;
+    std::string line;
+
+    while (std::getline(std::cin, line)) {
+        if (!line.empty())
+            numb.push_back(line);
+    }
+
+   std::sort(numb.begin(), numb.end(), [](const std::string &a, const std::string &b) {
+        return a + b > b + a;
+    });
+
+    for (const auto &i : numb) {
+        std::cout << i;
+    }
+    return 0;
+}
