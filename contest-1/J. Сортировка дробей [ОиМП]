@@ -1,0 +1,55 @@
+def gcd(a, b):
+    while b != 0:
+        temp = a    
+        a = b       
+        b = temp % b  
+    return a
+
+def simpl(num, den):
+    diviser = gcd(num, den)
+    return (num // diviser, den // diviser)
+
+def compaire_fract(fract1, fract2):
+    a, b = fract1
+    c, d = fract2
+    return a * d < c * b
+
+def merge_to_list(a,b):
+    c =[]
+    i = j = 0
+    while i < len(a) and j < len(b):
+        if compaire_fract(a[i],  b[j]):
+            c.append(a[i])
+            i += 1
+        else:
+            c.append(b[j])
+            j += 1
+    if i < len(a):
+        c += a[i:]
+    if j < len(b):
+         c += b[j:]
+    return c
+
+def merge_sort(s):
+    if len(s) == 1:
+        return s
+    middle = len(s) // 2
+    left = merge_sort(s[:middle])
+    right = merge_sort(s[middle:])
+    return merge_to_list(left,right)
+
+n, q = map(int, input().split())
+a = list(map(int, input().split()))
+b = list(map(int, input().split()))
+c = list(map(int, input().split()))
+
+l = []
+
+for i in a:
+    for j in b:
+        l.append(simpl(i, j))
+
+l = merge_sort(l)
+
+for k in c:
+    print(*l[k - 1])
