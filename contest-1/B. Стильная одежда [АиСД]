@@ -1,0 +1,26 @@
+n = int(input())
+N = list(map(int, input().split()))
+m = int(input())
+M = list(map(int, input().split()))
+
+mindif = 10**9  
+n_best = 0
+m_best = 0
+i = 0
+j = 0
+while i < n and j < m:
+    dif = abs(N[i] - M[j])
+    
+    if dif < mindif:
+        mindif = dif
+        n_best = N[i]
+        m_best = M[j]
+    
+    if N[i] < M[j]:
+        i += 1
+    elif N[i] > M[j]:
+        j += 1
+    else:
+        break  
+
+print(n_best, m_best)
