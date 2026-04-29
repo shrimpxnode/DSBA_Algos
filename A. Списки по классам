@@ -1,1 +1,14 @@
+class9, class10, class11 = [], [], []
+with open("input.txt") as file:
+    for line in file:
+        cline = line.strip()  
+        _class, surname = cline.split()
+        if _class == "9":
+            class9.append(cline)    
+        elif _class == "10":
+            class10.append(cline)   
+        elif _class == "11":
+            class11.append(cline)   
+print("\n".join(class9 + class10 + class11))
+
 
