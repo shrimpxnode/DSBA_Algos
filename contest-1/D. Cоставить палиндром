@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    int N;
+    std::string s;
+    std::cin >> N >> s;
+
+    std::sort(s.begin(), s.end());  
+
+    std::string left = "";
+    std::vector<char> odd;  
+
+    while (!s.empty()) {
+        int c = s[0];
+        int count = std::count(s.begin(), s.end(), c);
+
+        if (count % 2 == 0) {
+            left += std::string(count / 2, c);  
+        } else {
+            if (count > 1) left += std::string(count / 2, c); 
+            odd.push_back(c);  
+        }
+
+        s.erase(std::remove(s.begin(), s.end(), c), s.end()); 
+    }
+
+    std::string mid = "";
+    if (!odd.empty()) mid = odd[0];  
+
+    std::string right = left;
+    std::reverse(right.begin(), right.end());
+
+    std::cout << left + mid + right << std::endl;
+
+    return 0;
+}
