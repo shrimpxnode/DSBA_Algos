@@ -1,0 +1,14 @@
+def count_sort(l):
+    mn = min(l)
+    mx = max(l)
+    count = [0] * (mx - mn + 1)
+
+    for i in l:
+        count[i - mn] += 1
+
+    arr = []
+    for i in range(len(count)):
+        arr.extend([i + mn] * count[i])
+    return arr
+n = int(input())
+print(*count_sort(list(map(int, input().split()))))
